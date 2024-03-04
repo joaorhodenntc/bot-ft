@@ -5,6 +5,7 @@ const express = require('express');
 const token = '6323285955:AAFYiFWnG0aLKmhxFD-orRu7KwmXhjJ7gUY'
 const chat_id = '-1001993544603'
 const bot = new TelegramBot(token, { polling: false });
+const app = express();
 
 async function obterPartidas() {
     const url = "https://apiv3.apifootball.com/?action=get_events&match_live=1&APIkey=c16ba32e0dd38a8ef4b4c90a570d380f0665716e4b214e3715a2448fce6d7656";
