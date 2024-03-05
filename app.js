@@ -53,12 +53,12 @@ async function analisarPartidas(){
                         const odds = await obterOdds(idPartida);
                         const oddHome = odds[4].odd_1;
                         const oddAway = odds[4].odd_2;
-                        //if(oddHome<=1.40 || oddAway<= 1.40){
+                        if(oddHome<=1.40 || oddAway<= 1.40){
                             const mensagem = `*${nomeHome}* vs *${nomeAway}*\n\n⚽ Placar: ${scoreHome} x ${scoreAway}\n⚔️ Ataques Perigosos: ${apHome >= 65 ? '*' + apHome + '* 🔥' : apHome} x ${apAway >= 65 ? '*' + apAway + '* 🔥' : apAway}\n📈 Odds Pré: ${oddHome <= 1.40 ? oddHome + ' 👑' : oddHome} x ${oddAway <= 1.40 ? oddAway + ' 👑' : oddAway}\n🕛 Tempo: ${minutes}`;
                             await enviarMensagemTelegram(chat_bot,mensagem);
                             console.log(mensagem);
                             partidasNotificadas.add(idPartida);
-                        //}
+                        }
                     } catch (error){
                     }
                 }
