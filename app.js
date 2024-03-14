@@ -3,7 +3,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 
 const token = '6323285955:AAFYiFWnG0aLKmhxFD-orRu7KwmXhjJ7gUY'
-const chat_bot = '-1001993544603'
+const chat_bot = '-1002011266973'
 const chat_error = '-1002091913296'
 const bot = new TelegramBot(token, { polling: false });
 const app = express();
@@ -38,7 +38,7 @@ async function analisarPartidas(){
     for(let i=0; i<qtdPartidas; i++){
         const nomeHome = dados[i].match_hometeam_name;
         const nomeAway = dados[i].match_awayteam_name;
-        if(dados[i].match_status!='Finished' && dados[i].match_status>=65 && dados[i].match_status<=85){
+        if(dados[i].match_status!='Finished' && dados[i].match_status>=65 && dados[i].match_status<=77){
             const dangerousAttacks = dados[i].statistics.find(stat => stat.type === 'Dangerous Attacks');
             partidasEmAnalise.add(`${nomeHome} x ${nomeAway}`);
             if(dangerousAttacks){
@@ -54,7 +54,7 @@ async function analisarPartidas(){
                         const oddHome = odds[4].odd_1;
                         const oddAway = odds[4].odd_2;
                         if(oddHome<=1.40 || oddAway<= 1.40){
-                            const mensagem = `*${nomeHome}* vs *${nomeAway}*\n\n⚽ Placar: ${scoreHome} x ${scoreAway}\n⚔️ Ataques Perigosos: ${apHome >= 65 ? '*' + apHome + '* 🔥' : apHome} x ${apAway >= 65 ? '*' + apAway + '* 🔥' : apAway}\n📈 Odds Pré: ${oddHome <= 1.40 ? oddHome + ' 👑' : oddHome} x ${oddAway <= 1.40 ? oddAway + ' 👑' : oddAway}\n🕛 Tempo: ${minutes}`;
+                            const mensagem = `*${nomeHome}* vs *${nomeAway}*\n\n⚽ Placar: ${scoreHome} x ${scoreAway}\n⚔️ Ataques Perigosos: ${apHome >= 65 ? '*' + apHome + '* 🔥' : apHome} x ${apAway >= 65 ? '*' + apAway + '* 🔥' : apAway}\n📈 Odds Pré: ${oddHome <= 1.40 ? oddHome + ' 👑' : oddHome} x ${oddAway <= 1.40 ? oddAway + ' 👑' : oddAway}\n🕛 Tempo: ${minutes}\n\n🤖 *Entrar em OVER GOL*`;
                             await enviarMensagemTelegram(chat_bot,mensagem);
                             console.log(mensagem);
                             partidasNotificadas.add(idPartida);
