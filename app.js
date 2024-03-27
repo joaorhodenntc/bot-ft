@@ -44,18 +44,19 @@ async function analisarPartidas(){
         for(let i=0; i<qtdPartidas; i++){
             const minutos = parseInt( partidas[i].timer.split(':')[0]);
             const idPartida = partidas[i].id;
-            if(minutos>=65 && minutos<=77){
+            if(minutos>=35 && minutos<=77){
                 partidasEmAnalise.add(idPartida);
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
                 const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                 const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
-                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida)){
+                if((apCasa/minutos>=0.5 || apFora/minutos>=1) && (oddCasa<=11.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida)){
                     const nomeCasa = partidas[i].teamA.name;
                     const nomeFora = partidas[i].teamB.name;
-                    const placarCasa = partidas[i].teamA.score.f;
-                    const placarFora = partidas[i].teamB.score.f;
-                    const mensagem = `*${nomeCasa}* vs *${nomeFora}*\n\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa >= 65 ? '*' + apCasa + '* 🔥' : apCasa} x ${apFora >= 65 ? '*' + apFora + '* 🔥' : apFora}\n📈 Odds Pré: ${oddCasa <= 1.40 ? oddCasa + ' 👑' : oddCasa} x ${oddFora <= 1.40 ? oddFora + ' 👑' : oddFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER GOL*`;
+                    const placarCasa = parseFloat(partidas[i].teamA.score.f);
+                    const placarFora = parseFloat(partidas[i].teamB.score.f);
+                    const placar = placarCasa + placarFora + 0.5;
+                    const mensagem = `*${nomeCasa}* vs *${nomeFora}*\n\n⚽ Placar: ${placarCasa} x ${placarFora}\n⚔️ Ataques Perigosos: ${apCasa >= 65 ? '*' + apCasa + '* 🔥' : apCasa} x ${apFora >= 65 ? '*' + apFora + '* 🔥' : apFora}\n📈 Odds Pré: ${oddCasa <= 1.40 ? oddCasa + ' 👑' : oddCasa} x ${oddFora <= 1.40 ? oddFora + ' 👑' : oddFora}\n🕛 Tempo: ${minutos}\n\n🤖 *Entrar em OVER ${placar} GOLS*`;
                     await enviarMensagemTelegram(chat_bot,mensagem);
                     console.log(mensagem);
                     partidasNotificadas.add(idPartida);
@@ -78,7 +79,7 @@ async function iniciar() {
     }
 }
 
-setInterval(iniciar, 60000);
+setInterval(iniciar, 5000);
 
 const port = process.env.PORT || 3333; 
 
