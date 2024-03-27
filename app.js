@@ -44,13 +44,13 @@ async function analisarPartidas(){
         for(let i=0; i<qtdPartidas; i++){
             const minutos = parseInt( partidas[i].timer.split(':')[0]);
             const idPartida = partidas[i].id;
-            if(minutos>=35 && minutos<=77){
+            if(minutos>=65 && minutos<=77){
                 partidasEmAnalise.add(idPartida);
                 const apCasa = partidas[i].teamA.stats.attacks.d;
                 const apFora = partidas[i].teamB.stats.attacks.d;
                 const oddCasa = partidas[i].odds.kickoff['1X2'].bet365['1'];
                 const oddFora = partidas[i].odds.kickoff['1X2'].bet365['2'];
-                if((apCasa/minutos>=0.5 || apFora/minutos>=1) && (oddCasa<=11.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida)){
+                if((apCasa/minutos>=1 || apFora/minutos>=1) && (oddCasa<=1.40 || oddFora <=1.40) && !partidasNotificadas.has(idPartida)){
                     const nomeCasa = partidas[i].teamA.name;
                     const nomeFora = partidas[i].teamB.name;
                     const placarCasa = parseFloat(partidas[i].teamA.score.f);
@@ -79,7 +79,7 @@ async function iniciar() {
     }
 }
 
-setInterval(iniciar, 5000);
+setInterval(iniciar, 60000);
 
 const port = process.env.PORT || 3333; 
 
